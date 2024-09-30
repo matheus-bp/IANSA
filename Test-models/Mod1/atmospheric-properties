@@ -1,0 +1,25 @@
+
+#---Stellar parameters
+
+Tstar = 25000
+logLum = 5.80
+logGrav = 2.5
+#Mass = 
+VMic = 20
+
+#---Wind parameters
+
+logMdot = -6.00
+Vinf = 1500
+
+Velocity-law : "beta" 
+beta = 1
+
+Add-clumping : "microclumping"
+Add-clumping : "macroclumping"
+Add-clumping : "interclump"
+Microclumping-law : "hillier" # "custom-analytic"; "custom-from-file"
+hillier_pars = [0.1, 23, 1, 20]
+
+
+

@@ -1,0 +1,17 @@
+### A Pluto.jl notebook ###
+# v0.19.40
+
+using Markdown
+using InteractiveUtils
+
+# ╔═╡ 230e4556-7f3b-11ef-28cb-69e9058f9f7d
+md"""
+# Read atmospheric parameters
+"""
+
+# ╔═╡ 7a1e51f3-fd6b-4378-9fd8-75fd6a241a78
+open(iansa_dir*"/atmospheric-properties")
+
+# ╔═╡ Cell order:
+# ╟─230e4556-7f3b-11ef-28cb-69e9058f9f7d
+# ╠═7a1e51f3-fd6b-4378-9fd8-75fd6a241a78
