@@ -9,9 +9,69 @@ md"""
 # Read atmospheric parameters
 """
 
+# ╔═╡ 2ec59184-96ee-4cc2-a2e9-81276d67fb3d
+iansa_dir = "../Test-models/Mod1/"
+
+# ╔═╡ 53c4252a-f769-4131-b7fc-047de1e50a99
+begin
+	possible_params_dictkey_list= ["Tstar","logLbol","logGrav","Mstar"]
+	possible_params_dictval_list= Array{Float64}(undef,length(possible_params_dictkey_list))
+end
+
+# ╔═╡ dcb2e1f2-3ee6-4337-b228-3ce1c24fba9e
+params_dict = Dict(possible_params_dictkey_list .=> possible_params_dictval_list)
+
+# ╔═╡ d9aa411f-ec8b-474d-a548-6e02742a9a9f
+function read_param(textline, param, param_type, dict)
+	split_spaces = split(textline," ")
+	comment_pos = 1	
+	for (s,substring) in enumerate(split_spaces)
+		comment_pos = s
+		if occursin("#",substring)
+			comment_pos = s-1
+			break
+		end
+	end
+	
+	useful_textline = split_spaces[1:comment_pos]
+	deleteat!(useful_textline,findall(x->x=="",useful_textline))
+	deleteat!(useful_textline,findall(x->x==" ",useful_textline))
+
+	if length(useful_textline) > 0
+		if param in useful_textline
+			if param in keys(params_dict)
+				param = useful_textline[1]
+				value = parse(param_type,useful_textline[end])
+				dict[param] = value
+			end
+		end
+	end
+end
+	
+
 # ╔═╡ 7a1e51f3-fd6b-4378-9fd8-75fd6a241a78
-open(iansa_dir*"/atmospheric-properties")
+open(iansa_dir*"/atmospheric-properties") do f
+	# line_number
+	line = 0  
+ 	# read till end of file
+	print(f)
+	while ! eof(f) 
+    	# read a new / next line for every iteration           
+    	textline = readline(f)
+		for param in keys(params_dict)
+			read_param(textline,param,Float64,params_dict)
+		end
+	end
+end
+
+# ╔═╡ 6f9ae692-d7e2-4125-9727-ee5480f8c11e
+params_dict
 
 # ╔═╡ Cell order:
 # ╟─230e4556-7f3b-11ef-28cb-69e9058f9f7d
+# ╠═2ec59184-96ee-4cc2-a2e9-81276d67fb3d
+# ╠═53c4252a-f769-4131-b7fc-047de1e50a99
+# ╠═dcb2e1f2-3ee6-4337-b228-3ce1c24fba9e
+# ╠═d9aa411f-ec8b-474d-a548-6e02742a9a9f
 # ╠═7a1e51f3-fd6b-4378-9fd8-75fd6a241a78
+# ╠═6f9ae692-d7e2-4125-9727-ee5480f8c11e
