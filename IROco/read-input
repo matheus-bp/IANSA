@@ -15,7 +15,7 @@ iansa_dir = "../Test-models/Mod1/"
 # ╔═╡ 53c4252a-f769-4131-b7fc-047de1e50a99
 begin
 	possible_params_dictkey_list= ["Tstar","logLbol","logGrav","Mstar"]
-	possible_params_dictval_list= Array{Float64}(undef,length(possible_params_dictkey_list))
+	possible_params_dictval_list= .-ones(length(possible_params_dictkey_list))
 end
 
 # ╔═╡ dcb2e1f2-3ee6-4337-b228-3ce1c24fba9e
