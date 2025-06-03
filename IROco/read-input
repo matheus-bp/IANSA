@@ -64,14 +64,4 @@ open(iansa_dir*"/atmospheric-properties") do f
 	end
 end
 
-# ╔═╡ 6f9ae692-d7e2-4125-9727-ee5480f8c11e
 params_dict
-
-# ╔═╡ Cell order:
-# ╟─230e4556-7f3b-11ef-28cb-69e9058f9f7d
-# ╠═2ec59184-96ee-4cc2-a2e9-81276d67fb3d
-# ╠═53c4252a-f769-4131-b7fc-047de1e50a99
-# ╠═dcb2e1f2-3ee6-4337-b228-3ce1c24fba9e
-# ╠═d9aa411f-ec8b-474d-a548-6e02742a9a9f
-# ╠═7a1e51f3-fd6b-4378-9fd8-75fd6a241a78
-# ╠═6f9ae692-d7e2-4125-9727-ee5480f8c11e
