@@ -1,5 +1,5 @@
-# IANSA
-Integrated Analytical and Numerical Solution for Atmospheres
+# IANSAm
+Integrated Analytical and Numerical Solution for Atmosphere models
 
 ## IEMaNDJa
 Integration, Equations Manipulation, Numerical Derivatives and Jacobian solvers
@@ -12,3 +12,6 @@ Input Read and Organization of Commands
 
 ## ExU
 Executive Unit
+
+## IPhA
+Included Physics and Atomic data
