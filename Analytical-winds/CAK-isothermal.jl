@@ -1,10 +1,10 @@
 
-
+# Following the Chapter 8 of Stellar Winds
 
 function W_geom(
     Rstar :: Float64,
     r     :: Float64
-)
+    )
 """
     Function that computes the geometrical dillution factor, which represents the solid angle covered by the star seen from the position "r"
 """    
@@ -22,7 +22,7 @@ function v_crit(
     alpha_CAK :: Float64, 
     gamma_e   :: Float64,
     G_grav    :: Float64,
-)
+    )
 """
     Computes the velocity at the critical point based on the conditions of an isothermal line-driven wind with non-negligible pressure term.
 """
@@ -32,4 +32,6 @@ function v_crit(
 end
 
 ########################
+
+
 
