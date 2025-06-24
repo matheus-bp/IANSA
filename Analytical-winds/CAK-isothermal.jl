@@ -47,7 +47,6 @@ end
 # 4. Solve the ODE using a numerical method (e.g., RK4, Euler, etc)
 
 function F(
-    z, #z = r^2 v dvdr
     r, # radial distance
     v, # velocity
     Mstar, # stellar mass
@@ -55,32 +54,34 @@ function F(
     alpha :: Float64; # alpha exponent of CAK Theory
     G :: Float64 = GGrav, # gravitational constant
     )
+    z = r^2 * v # modified variable
     GMeff = G * Mstar * (1 - Gamma_e)
     (1 - aSound^2/v^2)*z + (GMeff - 2*aSound*r) - C*z^(1/alpha)
 
 end
+
+fz = F(r,v, 30, a_sound, 0.3)
 
 # Function to find the root (z_root) of the equation F(z) = 0
 function z_root(r, v, fz)
     # Find bracket (adjust these bounds if needed)
     z_min = 0.0
     z_max = 100.0
+
     try
-        return brent(f, z_min, z_max)
+        return brent(fz, z_min, z_max)
     catch e
         # Try with different bounds if first attempt fails
         z_max = 1000.0
-        return brent(f, z_min, z_max)
+        return brent(fz, z_min, z_max)
     end
 end
 
 
-
-
 # ODE function
-function ode_func(x, y)
-    z = solve_z(x, y)
-    return z / (x^2 * y)
+function ode_input_function(r, v, F)
+    z = z_root(r, v, F)
+    return z / (r^2 * v)
 end
 
 # Main solver function
@@ -91,7 +92,7 @@ function solve_ode(x0, y0, x_end, h)
     ys = [y]
     
     while x < x_end
-        y = rk4_step(ode_func, x, y, h)
+        y = rk4_step(ode_input_function, x, y, h)
         x += h
         push!(xs, x)
         push!(ys, y)
