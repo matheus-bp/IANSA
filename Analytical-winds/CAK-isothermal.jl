@@ -1,4 +1,5 @@
 include("IEManDJa/root-finding-methods.jl")
+include("IEManDJa/numerical-ode-solution-methods.jl")
 include("IPhA/physconst.jl")   
 
 # Following the Chapter 8 of Stellar Winds
@@ -85,18 +86,15 @@ function ode_input_function(r, v, F)
 end
 
 # Main solver function
-function solve_ode(x0, y0, x_end, h)
-    x = x0
-    y = y0
-    xs = [x]
-    ys = [y]
+solve_ode(ode_input_function, x0, y0, x_end, h; chosen_method=rk4_step)
+
+
+#################
+
+NN_max = 10
+
+while NN < NN_max
     
-    while x < x_end
-        y = rk4_step(ode_input_function, x, y, h)
-        x += h
-        push!(xs, x)
-        push!(ys, y)
-    end
     
-    return xs, ys
+
 end
