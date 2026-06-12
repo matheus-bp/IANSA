@@ -1,38 +1,36 @@
 # create a grid with the pz geometry scheme
 
 ND :: Int64 = 20 # number of depthpoints, i.e., the number of atmospheric impact parameters
-NC :: Int64 = 5 # number of core rays
+NC :: Int64 = 7 # number of core rays
 
 r_min :: Float64 = 1.0 # in stellar radii
-r_max :: Float64 = 100.0 # also in stellar radii
+r_max :: Float64 = 10.0 # also in stellar radii
 
 radius = zeros(Float64, ND) # initialize r_grid
-imppar_atm = zeros(Float64, ND) # initialize atmospheric p grid
+imppar_atm = zeros(Float64, ND-1) # initialize atmospheric p grid
 imppar_cor = zeros(Float64, NC) # initialize core p grid
 
-# Grid spacing
+# radius grid spacing
+radius = collect(range(r_max, r_min, length=ND))
 
-radius[1] = r_min
+# impact parameters 
+imppar_atm = radius[1:end-1]
+imppar_cor = collect(range(r_min, 0, length=NC)) # assumes a linear spacing of the core rays
 
-# linear spacing
-# for (i, r) in enumerate(radius[2:end])
-#     radius[i+1] += radius[1] + i*(r_max - r_min)/ND
-# end
-radius = collect(range(r_min, r_max, length=ND))
-
-
-imppar_atm = radius
-println(radius)
-println(imppar_atm)
-
-zaxes_atm = [Vector{Float64}() for _ in 1:ND]
-zaxes_cor = [Vector{Float64}() for _ in 1:NC]
+zrays_atm = [Vector{Float64}() for _ in 1:ND-1]
+zrays_cor = [Vector{Float64}() for _ in 1:NC]
 
 for (j,p) in enumerate(imppar_atm)
-    println(p)
-    for i in collect(Int64, j:ND)
+    for i in collect(Int64, 1:j)
         z = (radius[i]^2 - p^2)^0.5
-        push!(zaxes_atm[j], z)
+        push!(zrays_atm[j], z)
+    end
+end
+
+for (j,p) in enumerate(imppar_cor)
+    for (i,r) in enumerate(radius[end:-1:1])
+        z = (r^2 - p^2)^0.5
+        push!(zrays_cor[j], z)
     end
 end
 
@@ -42,27 +40,47 @@ if abspath(PROGRAM_FILE) == @__FILE__
 
 try
     using CairoMakie
-
 catch
     using Pkg
     Pkg.add("CairoMakie")
     using CairoMakie
 end
-const mak = CairoMakie  # Now mak is defined in global scope
+const mak = CairoMakie  
     
 fig = mak.Figure(size = (650,650))
-ax = mak.Axis(fig[1,1])
+ax = mak.Axis(fig[1,1], xgridvisible=false, ygridvisible=false,)
 
-for p in collect(1:ND)
-    imppar = fill(imppar_atm[p], length(zaxes_atm[p]))
-    zaxis = zaxes_atm[p]
-    println(imppar)
-    mak.scatter!(ax, zaxis, imppar[end:-1:1])
-end
+colors_atm = mak.cgrad(:Blues_3, ND-1) 
+colors_cor = mak.cgrad(:BuPu_3, NC) 
 
 for r in radius
-    mak.arc!(ax, 0.0, r, 0, π/2, color=:blue, linewidth=0.5)
+    mak.arc!(ax, 0.0, r, 0, π/2, color=:gray, linewidth=0.5,alpha=0.5)
 end
+
+for p in imppar_atm
+    mak.lines!(ax,[0.0,r_max],[p,p], linewidth=2, alpha=0.2, color=:black)
+end
+
+for p in imppar_cor
+    z = (r_min^2 - p^2)^0.5
+    mak.lines!(ax,[z,r_max],[p,p], linewidth=2, alpha=0.2, color=:black)
+end
+
+
+for p in collect(1:ND-1)
+    imppar = fill(imppar_atm[p], length(zrays_atm[p]))
+    zaxis = zrays_atm[p]
+    mak.scatter!(ax, zaxis, imppar[end:-1:1], color=colors_atm[p])
+end
+
+for p in collect(1:NC)
+    imppar = fill(imppar_cor[p], length(zrays_cor[p]))
+    zaxis = zrays_cor[p]
+    mak.scatter!(ax, zaxis, imppar, color = colors_cor[p])
+end
+
+
+
 
 display(fig)
 println("Press Enter to close...")
