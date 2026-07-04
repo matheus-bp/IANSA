@@ -1,5 +1,4 @@
-function fweuler_step(
-    x::Vector{Float64},
+function forward_euler_step(
     y::Vector{Float64},
     h::Float64,
     dydx::Float64   
@@ -8,7 +7,9 @@ function fweuler_step(
     Makes one step solving the ordinary differential equation (ODE) "dydx = f(y,x)" using the Forward Euler (FE) algorithm.
 """
 
-    return ynew
+    y_new = y .+ h .* dydx
+
+    return y_new
 end
 
 
