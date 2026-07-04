@@ -2,9 +2,9 @@
 # NIST constants: https://physics.nist.gov/cuu/Constants/
 
 # Fundamental constants
-cLight :: Float64 = 2.99792458e10      # cm/s                    | Speed of light in vacuum
-eCharge :: Float64 = 4.8032068e-10     # esu (statcoulombs)      | Electron charge
-NAvogadro :: Float64 = 6.02214076e23     # mol⁻¹                 | Avogadro's number
+c_light :: Float64 = 2.99792458e10      # cm/s                    | Speed of light in vacuum
+e_charge :: Float64 = 4.8032068e-10     # esu (statcoulombs)      | Electron charge
+avogadro_N :: Float64 = 6.02214076e23     # mol⁻¹                 | Avogadro's number
 GGrav :: Float64 = 6.67259e-8  # cm³/(g·s²)                      | Gravitational constant
 
 # Electromagnetic constants
@@ -14,7 +14,7 @@ mNeutron :: Float64 = 1.6749286e-24        # g                   | Neutron mass
 atomMassUnit :: Float64 = 1.66053906660e-24  # g                 | Atomic mass unit (amu)
 
 # Quantum constants
-hPlanck :: Float64 = 6.6260755e-27     # erg·s                   | Planck constant
+planck_h :: Float64 = 6.6260755e-27     # erg·s                   | Planck constant
 hcutPlanck :: Float64 = 1.05457266e-27  # erg·s                  | Reduced Planck constant (hPlanck/2π)
 RydConst :: Float64 = 2.1798723611035e-11  #erg                  | Rydberg constant
 
